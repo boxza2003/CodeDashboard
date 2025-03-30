@@ -1,0 +1,489 @@
+/********** Template CSS **********/
+:root {
+    --primary: #1fb110; /*#29eb16;*/ /*#EB1616;*/
+    --primary-hover: #1c8811;
+    --secondary: #191C24;
+    --light: #6C7293;
+    --dark: #000000;
+}
+
+html, body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color: #DDDDDD;
+    
+}
+
+a {
+    color: #56eb16;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #12bc18;
+}
+
+.text-primary {
+    color: var(--primary) !important;
+}
+
+/*CheckBox*/
+.form-check-input:checked {
+    background-color: #0c8000;
+    border-color: #2cfc15;;
+}
+
+/*DropDownList*/
+.dropdown-menu {
+    border: white 1px solid !important;
+}
+
+.dropdown-item {
+    /* white-space: nowrap; */  
+    white-space: normal; /*超過範圍則換行*/
+    width: 320px;
+    
+}
+
+.footer a {
+    color: #c7c7c7;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: #ababab;
+}
+
+.back-to-top {
+    position: fixed;
+    display: none;
+    right: 45px;
+    bottom: 45px;
+    z-index: 99;
+}
+
+
+/*** Spinner ***/
+#spinner {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .5s ease-out, visibility 0s linear .5s;
+    z-index: 99999;
+}
+
+#spinner.show {
+    transition: opacity .5s ease-out, visibility 0s linear 0s;
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/*** Button ***/
+.btn {
+    transition: .5s;
+}
+
+.btn-square {
+    width: 38px;
+    height: 38px;
+}
+
+.btn-sm-square {
+    width: 32px;
+    height: 32px;
+}
+
+.btn-lg-square {
+    width: 48px;
+    height: 48px;
+}
+
+.btn-square,
+.btn-sm-square,
+.btn-lg-square {
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: normal;
+    border-radius: 50px;
+}
+
+
+/*** Layout ***/
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--secondary);
+    transition: 0.5s;
+    z-index: 999;
+}
+
+.content {
+    margin-left: 250px;
+    min-height: 100vh;
+    background: var(--dark);
+    transition: 0.5s;
+}
+
+@media (min-width: 992px) {
+    .sidebar {
+        margin-left: 0;
+    }
+
+    .sidebar.open {
+        margin-left: -250px;
+    }
+
+    .content {
+        width: calc(100% - 250px);
+    }
+
+    .content.open {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .sidebar {
+        margin-left: -250px;
+    }
+
+    .sidebar.open {
+        margin-left: 0;
+    }
+
+    .content {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+
+/*** Navbar ***/
+.sidebar .navbar .navbar-nav .nav-link {
+    padding: 7px 20px;
+    color: var(--light);
+    font-weight: 500;
+    border-left: 3px solid var(--secondary);
+    border-radius: 0 30px 30px 0;
+    outline: none;
+}
+
+.sidebar .navbar .navbar-nav .nav-link:hover,
+.sidebar .navbar .navbar-nav .nav-link.active {
+    color: var(--primary);
+    background: var(--dark);
+    border-color: var(--primary);
+}
+
+.sidebar .navbar .navbar-nav .nav-link i {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--dark);
+    border-radius: 40px;
+}
+
+.sidebar .navbar .navbar-nav .nav-link:hover i,
+.sidebar .navbar .navbar-nav .nav-link.active i {
+    background: var(--secondary);
+}
+
+.sidebar .navbar .dropdown-toggle::after {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border: none;
+    content: "\f107";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    transition: .5s;
+}
+
+.sidebar .navbar .dropdown-toggle[aria-expanded=true]::after {
+    transform: rotate(-180deg);
+}
+
+.sidebar .navbar .dropdown-item {
+    padding-left: 25px;
+    border-radius: 0 30px 30px 0;
+    color: var(--light);
+}
+
+.sidebar .navbar .dropdown-item:hover,
+.sidebar .navbar .dropdown-item.active {
+    background: var(--dark);
+}
+
+.navbar-expand .navbar-nav .dropdown-menu {
+    position: absolute;
+    max-width: 320px;
+}
+
+.content .navbar .navbar-nav .nav-link {
+    margin-left: 25px;
+    padding: 12px 0;
+    color: var(--light);
+    outline: none;
+}
+
+.content .navbar .navbar-nav .nav-link:hover,
+.content .navbar .navbar-nav .nav-link.active {
+    color: var(--primary);
+}
+
+.content .navbar .sidebar-toggler,
+.content .navbar .navbar-nav .nav-link i {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--dark);
+    border-radius: 40px;
+}
+
+.content .navbar .dropdown-item {
+    color: var(--light);
+}
+
+.content .navbar .dropdown-item:hover,
+.content .navbar .dropdown-item.active {
+    background: var(--dark);
+}
+
+.content .navbar .dropdown-toggle::after {
+    margin-left: 6px;
+    vertical-align: middle;
+    border: none;
+    content: "\f107";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    transition: .5s;
+}
+
+.content .navbar .dropdown-toggle[aria-expanded=true]::after {
+    transform: rotate(-180deg);
+}
+
+@media (max-width: 575.98px) {
+    .content .navbar .navbar-nav .nav-link {
+        margin-left: 15px;
+    }
+}
+
+/*contents bottom page control*/
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: var(--primary); 
+    border-color: var(--primary);
+}
+.page-link:focus {
+    z-index: 3;
+    box-shadow: 0 0 0 .25rem rgba(33, 235, 22, 0.5);
+}
+
+
+/*** Date Picker ***/
+.bootstrap-datetimepicker-widget.bottom {
+    top: auto !important;
+}
+
+.bootstrap-datetimepicker-widget .table * {
+    border-bottom-width: 0px;
+}
+
+.bootstrap-datetimepicker-widget .table th {
+    font-weight: 500;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+    padding: 10px;
+    border-radius: 2px;
+}
+
+.bootstrap-datetimepicker-widget table td.active,
+.bootstrap-datetimepicker-widget table td.active:hover {
+    background: var(--primary);
+}
+
+.bootstrap-datetimepicker-widget table td.today::before {
+    border-bottom-color: var(--primary);
+}
+
+
+/*** Testimonial ***/
+.progress .progress-bar {
+    width: 0px;
+    transition: 2s;
+}
+
+
+/*** Testimonial ***/
+.testimonial-carousel .owl-dots {
+    margin-top: 24px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.testimonial-carousel .owl-dot {
+    position: relative;
+    display: inline-block;
+    margin: 0 5px;
+    width: 15px;
+    height: 15px;
+    border: 5px solid var(--primary);
+    border-radius: 15px;
+    transition: .5s;
+}
+
+.testimonial-carousel .owl-dot.active {
+    background: var(--dark);
+    border-color: var(--primary);
+}
+
+/*** account ***/
+.nav-link {
+    color: var(--primary);
+}
+.nav-link:hover, .nav-link:focus {
+    color: var(--primary-hover);
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #EEEEEE;
+    background-color: var(--primary);
+}
+
+.btn-my-primary {
+    color: #fff;
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+.btn-my-primary:hover {
+    color: #fff;
+    background-color: #13c85b;
+    border-color: #29bc12;
+}
+.btn-check:focus+.btn-my-primary, .btn-my-primary:focus {
+    color: #fff;
+    background-color: #13c85b;
+    border-color: #29bc12;
+    box-shadow: 0 0 0 .25rem rgba(33, 235, 22, 0.5);
+}
+
+.btn-outline-my-primary {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+.btn-outline-my-primary:hover {
+    color: #fff;
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+.btn-check:checked+.btn-outline-my-primary, 
+.btn-check:active+.btn-outline-my-primary, 
+.btn-outline-my-primary:active, 
+.btn-outline-my-primary.active, 
+.btn-outline-my-primary.dropdown-toggle.show {
+    color: #fff;
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+.btn-check:focus+.btn-outline-my-primary, .btn-outline-primary:focus {
+    box-shadow: 0 0 0 .25rem rgba(33, 235, 22, 0.5); 
+}
+.btn-check:checked+.btn-outline-primary:focus, .btn-check:active+.btn-outline-primary:focus, 
+.btn-outline-primary:active:focus, .btn-outline-primary.active:focus, 
+.btn-outline-primary.dropdown-toggle.show:focus {
+    box-shadow: 0 0 0 .25rem rgba(33, 235, 22, 0.5);
+}
+
+/*radio button*/
+.floatBlockItem {
+    display: flex;
+    margin-left:1rem;
+}
+.floatBlock {
+    margin: 0 1.81em 0 0;
+}
+/*fork button view mode*/
+.btnForkView {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 20px;
+    margin: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    cursor: default !important;
+    position: relative;
+}
+
+/*fork button edit mode*/
+.btnFork {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 40px 5px 20px;
+    margin: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    cursor: default !important;
+    position: relative;
+}
+.btnFork:hover {
+    background-color: #45a049;
+}
+.btnFork .icon {
+    position: absolute;
+    right: 20px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/*modal*/
+.modal-body > div {
+    margin-bottom: 10px;
+}
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: var(--primary);
+}
+.btn-spotlight {
+    color: #000000;
+    background-color: #ffffff;
+    border-color: #6C7293;
+}
+.btn-spotlight:hover {
+    color: #000000;
+    background-color: #cecece;
+    border-color: #565b76;
+}
+.btn-spotlight:active {
+    color: #fff;
+    background-color: #9f9f9f;
+    border-color: #51566e;
+}

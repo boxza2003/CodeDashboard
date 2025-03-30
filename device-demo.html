@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindman Dashboard - 設備管理</title>
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <link href="img/favicon.png" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link href="lib/googleWebFonts/GoogleWebFonts.css" rel="stylesheet"> 
+    <!-- Icon Font Stylesheet -->
+    <link href="lib/iconFonts/all.min.css" rel="stylesheet">
+    <link href="lib/bootstrapIcon/bootstrap-icons.css" rel="stylesheet">
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/datatables.min.css" rel="stylesheet">
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!--
+    進行新增、刪除、配置和監控設備的功能。設備運行狀態的即時記錄與回傳，為管理員提供設備資訊查詢和即時更新功能
+    -->
+    <div class="container-fluid position-relative d-flex p-0">
+        <!-- Spinner -->
+        <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Sidebar -->
+        <div class="sidebar pe-4 pb-3">
+            <nav class="navbar bg-secondary navbar-dark">
+                <!-- Logo -->
+                <a href="index-demo.html" class="navbar-brand mx-4 mb-3">
+                    <!-- <h3 class="text-primary">Dashboard</h3> -->
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="logo" x="0px" y="0px" width="100%" height="50px" viewBox="0 0 500 95" enable-background="new 0 0 500 95" xml:space="preserve">
+                        <g>
+                            <g>
+                                <path fill-rule="evenodd" clip-rule="evenodd" fill="#004097" d="M88.651,68.92V51.162L111.615,9.06v84.203h-9.645V44.426    L88.651,68.92L88.651,68.92z M88.651,43.814l22.964-42.101h-9.645l-13.319,24.34V43.814L88.651,43.814z M125.394,1.713v91.549    h-9.798V1.713H125.394z M61.707,1.713h-9.645l-13.319,24.34v17.76L61.707,1.713L61.707,1.713z M88.651,26.054v17.76L65.687,86.067    V1.713h9.645V50.55L88.651,26.054L88.651,26.054z M88.651,51.162L65.687,93.263h9.645L88.651,68.92V51.162L88.651,51.162z     M38.743,68.92V51.162L61.707,9.06v84.203h-9.645V44.426L38.743,68.92z M38.743,26.054L2,93.263h9.646l27.098-49.449V26.054    L38.743,26.054z M38.743,51.162V68.92L25.424,93.263h-9.799L38.743,51.162z"/>
+                                <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#FCCF00" points="61.707,1.713 65.687,1.713 65.687,86.067 111.615,1.713     115.596,1.713 115.596,93.263 111.615,93.263 111.615,9.06 65.687,93.263 61.707,93.263 61.707,9.06 15.625,93.263 11.645,93.263       "/>
+                            </g>
+                            <path style="fill:white;" fill-rule="evenodd" clip-rule="evenodd" fill="#231815" d="M432.652,92.343v-8.571c16.993,0.153,16.993-25.414,0-25.414l0,0   v-8.42c4.593,0,9.187,1.532,12.708,4.285v-4.285h8.418v42.405h-8.418v-4.286C441.839,90.814,437.245,92.343,432.652,92.343   L432.652,92.343z M497.564,92.343V66.931c0-9.34-7.502-16.993-16.84-16.993c-2.909,0-5.97,0.764-8.574,2.296v-2.296h-8.42v42.405   h8.42V66.931c0-4.746,3.827-8.573,8.574-8.573c4.591,0,8.42,3.827,8.42,8.573v25.412H497.564z M432.652,49.938v8.42   c-16.994,0-16.994,25.567,0,25.414v8.571c-11.635,0-21.126-9.489-21.126-21.279C411.526,59.429,421.018,49.938,432.652,49.938   L432.652,49.938z M311.25,92.343v-8.571c16.84,0.153,16.84-25.414,0-25.414l0,0v-8.42l0,0c4.439,0,9.032,1.532,12.706,4.285V37.229   h8.421v55.113h-8.421v-4.286C320.282,90.814,315.689,92.343,311.25,92.343L311.25,92.343L311.25,92.343z M401.576,92.343V66.931   c0-9.34-7.656-16.993-16.994-16.993c-4.747,0-9.494,2.143-12.708,5.818c-3.061-3.676-7.808-5.818-12.706-5.818   c-2.909,0-5.971,0.764-8.421,2.296v-2.296h-8.42v42.405h8.42V66.931c0-4.746,3.828-8.573,8.421-8.573   c4.745,0,8.574,3.827,8.574,8.573v25.412h8.418V66.931c0-4.746,3.829-8.573,8.422-8.573c4.745,0,8.571,3.827,8.571,8.573v25.412   H401.576z M254.757,49.938h-8.572v42.405h8.572V66.931l0,0c0-4.746,3.828-8.573,8.422-8.573c4.592,0,8.42,3.827,8.42,8.573v25.412   h8.572V66.931c0-9.34-7.654-16.993-16.992-16.993c-2.909,0-5.972,0.764-8.422,2.296V49.938L254.757,49.938z M311.25,49.938v8.42   l0,0c-16.994,0-16.994,25.567,0,25.414l0,0v8.571c-11.788,0-21.281-9.489-21.281-21.279   C289.969,59.429,299.462,49.938,311.25,49.938L311.25,49.938z M236.387,37.229v6.736h-8.574v-6.736H236.387L236.387,37.229z    M236.387,49.938v42.405h-8.574V49.938H236.387L236.387,49.938z M185.559,92.343l23.73-31.229v31.229h8.574V49.938h-8.574   l-23.73,31.229V49.938h-8.573l-32.302,42.405h8.42l23.882-31.229v31.229H185.559z"/>
+                        </g>
+                    </svg>
+                </a>
+                <!-- User -->
+                <div class="d-flex align-items-center ms-4 mb-4">
+                    <div class="position-relative">
+                        <img class="rounded-circle" src="img/user.png" alt="" style="width: 40px; height: 40px;">
+                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                    </div>
+                    <div class="ms-3">
+                        <h6 class="mb-0">王小明(abc123)</h6>
+                        <span>系統管理者</span>
+                    </div>
+                </div>
+                <!-- DropDownList -->
+                <div class="navbar-nav w-100">
+                    <a href="index-demo.html" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>儀表板</a>
+                    <a href="account-demo.html" class="nav-item nav-link"><i class="fa fa-users me-2"></i>帳戶管理</a>
+                    <a href="device-demo.html" class="nav-item nav-link active"><i class="bi bi-optical-audio me-2"></i>設備管理</a>
+                    <a href="operate-demo.html" class="nav-item nav-link"><i class="fab fa-wpforms me-2"></i>操作管理</a>
+                    <a href="maintain-demo.html" class="nav-item nav-link"><i class="fa fa-wrench me-2"></i>維護管理</a>
+                    <a href="login-demo.html" class="nav-item nav-link" onclick="goLogout();"><i class="fa fa-sign-out-alt me-2"></i>登出</a>
+                    <br><br/>
+                </div>
+            </nav>
+        </div>
+        <!-- Content -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+                <!-- Logo - navbar -->
+                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="50" viewBox="0 0 140 95" xml:space="preserve" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g fill-rule="evenodd" clip-rule="evenodd">
+                          <path fill="#004097" d="M88.651 68.92V51.162L111.615 9.06v84.203h-9.645V44.426zm0-25.106 22.964-42.101h-9.645l-13.319 24.34zm36.743-42.101v91.549h-9.798V1.713zm-63.687 0h-9.645l-13.319 24.34v17.76zm26.944 24.341v17.76L65.687 86.067V1.713h9.645V50.55zm0 25.108L65.687 93.263h9.645L88.651 68.92zM38.743 68.92V51.162L61.707 9.06v84.203h-9.645V44.426zm0-42.866L2 93.263h9.646l27.098-49.449zm0 25.108V68.92L25.424 93.263h-9.799z"></path>
+                          <path fill="#FCCF00" d="M61.707 1.713h3.98v84.354l45.928-84.354h3.981v91.55h-3.981V9.06L65.687 93.263h-3.98V9.06L15.625 93.263h-3.98z"></path>
+                          
+                        </g>
+                      </svg>
+                </a>
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <div class="navbar-nav align-items-center ms-auto">
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-bell me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">通知</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">新增帳戶[使用者 ghi789]</h6>
+                                <small>5 分鐘前</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">停用帳戶[管理者 def456]</h6>
+                                <small>5 分鐘前</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">提醒：設備(MVSZ-100)離預計保養日倒數 7 日</h6>
+                                <small>6 分鐘前</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item text-center">查看全部</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- Elements -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-12 col-xl-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <!-- <h6 class="mb-4">設備管理</h6> -->
+                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active"  data-bs-toggle="pill"
+                                        data-bs-target="#pills-device" type="button" role="tab"
+                                        aria-controls="pills-device"
+                                        aria-selected="true">設備維護</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" data-bs-toggle="pill"
+                                        data-bs-target="#pills-immediate" type="button" role="tab"
+                                        aria-controls="pills-immediate" aria-selected="false">即時數據</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="pills-tabContent">
+                                <!--設備維護-->
+                                <div class="tab-pane fade show active" id="pills-device" role="tabpanel" >
+                                    <div>
+                                        <button type="button" class="btn btn-outline-primary btn-outline-my-primary" onclick='openAddDeviceConfirm();'>新增</button>
+                                        <div class="table-responsive">
+                                            <table id="tableDevice" class="table" style="white-space: nowrap;">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">分類</th>
+                                                        <th scope="col">名稱</th>
+                                                        <th scope="col">型號</th>
+                                                        <th scope="col">設備代碼</th>
+                                                        <th scope="col">位置</th>
+                                                        <th scope="col">運行時間</th>
+                                                        <th scope="col">功能</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">1</th>
+                                                        <td data-value="A">方向控制閥</td>
+                                                        <td data-value="A0001">電磁閥</td>
+                                                        <td data-value="a0001">MVSC-220</td>
+                                                        <td>MVSC-220-202503010211</td>
+                                                        <td>2樓A區</td>
+                                                        <td>276日02時37分</td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-primary btn-outline-my-primary" onclick="openEditDeviceConfirm(this);">編輯</button>
+                                                            <button type="button" class="btn btn-outline-primary btn-outline-my-primary" onclick='openDeleteDeviceConfirm(this);'>刪除</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">2</th>
+                                                        <td data-value="A">方向控制閥</td>
+                                                        <td data-value="A0001">電磁閥</td>
+                                                        <td data-value="a0011">MVSE-510</td>
+                                                        <td>MVSE-510-202503010012</td>
+                                                        <td>2樓A區</td>
+                                                        <td>122日17時05分</td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-primary btn-outline-my-primary" onclick="openEditDeviceConfirm(this);">編輯</button>
+                                                            <button type="button" class="btn btn-outline-primary btn-outline-my-primary" onclick='openDeleteDeviceConfirm(this);'>刪除</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">3</th>
+                                                        <td data-value="B">氣源處理元件</td>
+                                                        <td data-value="B0001">三點組合</td>
+                                                        <td data-value="b0001">MACP200</td>
+                                                        <td>MACP200-202503010009</td>
+                                                        <td>1樓C區</td>
+                                                        <td>192日12時45分</td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-primary btn-outline-my-primary" onclick="openEditDeviceConfirm(this);">編輯</button>
+                                                            <button type="button" class="btn btn-outline-primary btn-outline-my-primary" onclick='openDeleteDeviceConfirm(this);'>刪除</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">4</th>
+                                                        <td data-value="C">執行元件</td>
+                                                        <td data-value="C0001">強力夾持氣壓缸</td>
+                                                        <td data-value="c0001">MCKD</td>
+                                                        <td>MCKD-202503010075</td>
+                                                        <td>1樓C區</td>
+                                                        <td>42日02時32分</td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-primary btn-outline-my-primary" onclick="openEditDeviceConfirm(this);">編輯</button>
+                                                            <button type="button" class="btn btn-outline-primary btn-outline-my-primary" onclick='openDeleteDeviceConfirm(this);'>刪除</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">5</th>
+                                                        <td data-value="D">電動缸</td>
+                                                        <td data-value="D0001">電動夾爪</td>
+                                                        <td data-value="d0001">MEHC3</td>
+                                                        <td>MEHC3-202503010004</td>
+                                                        <td>1樓E區</td>
+                                                        <td>62日07時06分</td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-primary btn-outline-my-primary" onclick="openEditDeviceConfirm(this);">編輯</button>
+                                                            <button type="button" class="btn btn-outline-primary btn-outline-my-primary" onclick='openDeleteDeviceConfirm(this);'>刪除</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">6</th>
+                                                        <td data-value="E">機械手末端工具(EOAT)</td>
+                                                        <td data-value="E0001">氣動砂輪機–連桿浮動工具</td>
+                                                        <td data-value="e0001">TPG60</td>
+                                                        <td>TPG60-202503010002</td>
+                                                        <td>1樓F區</td>
+                                                        <td>77日14時21分</td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-primary btn-outline-my-primary" onclick="openEditDeviceConfirm(this);">編輯</button>
+                                                            <button type="button" class="btn btn-outline-primary btn-outline-my-primary" onclick='openDeleteDeviceConfirm(this);'>刪除</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--即時數據-->
+                                <div class="tab-pane fade show" id="pills-immediate" role="tabpanel" >
+                                    <div>
+                                        <div class="table-responsive">
+                                            <table id="tableImmediate" class="table" style="white-space: nowrap;">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">設備代碼</th>
+                                                        <th scope="col">設備狀態</th>
+                                                        <th scope="col">接收時間</th>
+                                                        <th scope="col">數據1</th>
+                                                        <th scope="col">數據2</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">1</th>
+                                                        <td data-value="A" data-value="A0001" data-value="a0001">MVSC-220-202503010176</td>
+                                                        <td>啟動</td>
+                                                        <td>2025-03-01 13:18:34</td>
+                                                        <td>
+                                                            <!-- <button type="button" class="btn btn-outline-primary btn-outline-my-primary" onclick="openImmediateData(this);">查看數據</button> -->
+                                                            數據123
+                                                        </td>
+                                                        <td>數據321</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">2</th>
+                                                        <td data-value="A" data-value="A0001" data-value="a0001">MVSC-220-202503010103</td>
+                                                        <td>啟動</td>
+                                                        <td>2025-03-01 11:33:09</td>
+                                                        <td>數據456</td>
+                                                        <td>數據654</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">3</th>
+                                                        <td data-value="A" data-value="A0001" data-value="a0001">MVSC-220-202503010021</td>
+                                                        <td>停止</td>
+                                                        <td>2025-03-01 09:21:42</td>
+                                                        <td>數據789</td>
+                                                        <td>數據987</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">4</th>
+                                                        <td data-value="B" data-value="B0001" data-value="b0001">MACP200-202503010009</td>
+                                                        <td>啟動</td>
+                                                        <td>2025-03-01 09:02:42</td>
+                                                        <td>數據ABC</td>
+                                                        <td>數據CBA</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer container-fluid pt-4 px-4">
+                <div class="bg-secondary rounded-top p-4">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 text-center text-sm-start">
+                            &copy; <a href="https://www.mindman.com.tw/index.php?lg=T">金器工業股份有限公司</a>, All Right Reserved. 
+                        </div>
+                        <div class="col-12 col-sm-6 text-center text-sm-end">
+                            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="addDeviceModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-secondary rounded h-100">
+                    <div class="modal-header">
+                        <h5 class="modal-title">新增</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="display: flex;"><div>分類：</div><div>
+                            <div id="selGroup">
+                                <button class="btn btn-spotlight dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">--請選擇--</button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#" data-value="A">方向控制閥</a></li>
+                                    <li><a class="dropdown-item" href="#" data-value="B">氣源處理元件</a></li>
+                                    <li><a class="dropdown-item" href="#" data-value="C">執行元件</a></li>
+                                    <li><a class="dropdown-item" href="#" data-value="D">電動缸</a></li>
+                                    <li><a class="dropdown-item" href="#" data-value="E">機械手末端工具(EOAT)</a></li>
+                                </ul>
+                            </div>
+                        </div></div>
+                        <div style="display: flex;"><div>名稱：</div><div>
+                            <div id="selName">
+                                <button class="btn btn-spotlight dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">--請選擇--</button>
+                                <ul class="dropdown-menu">
+                                    <!--根據[分類]呈現名稱-->
+                                    
+                                </ul>
+                            </div>
+                        </div></div>
+                        <div style="display: flex;"><div>型號：</div><div>
+                            <div id="selType">
+                                <button class="btn btn-spotlight dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">--請選擇--</button>
+                                <ul class="dropdown-menu">
+                                    <!--根據[名稱]呈現型號-->
+
+                                </ul>
+                            </div>
+                        </div></div>
+                        <div>設備代碼：<input type="text" id="txtId" style="width:70%"></div>
+                        <div>位置：<input type="text" id="txtPosition"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-my-primary" onclick="goAddDevice();">確認</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteDeviceModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-secondary rounded h-100">
+                    <div class="modal-header">
+                        <h5 class="modal-title" >刪除</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            是否要刪除「<span id="myDelDeviceName"></span>」<br/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">否</button>
+                        <button type="button" class="btn btn-my-primary" onclick="goDeleteDevice();">是</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="immediateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-secondary rounded h-100">
+                    <div class="modal-header">
+                        <h5 class="modal-title" >功能</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" data-bs-toggle="pill"
+                                    data-bs-target="#pills-immediate-data" type="button" role="tab"
+                                    aria-controls="pills-immediate-data" aria-selected="false">數據</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" data-bs-toggle="pill"
+                                    data-bs-target="#pills-activation" type="button" role="tab"
+                                    aria-controls="pills-activation" aria-selected="false">稼動率</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                            <!--根據[型號]呈現數據-->
+                            <div class="tab-pane fade show active" id="pills-immediate-data" role="tabpanel">
+
+                            </div>
+                            <!--稼動率-->
+                            <div class="tab-pane fade" id="pills-activation" role="tabpanel">
+                                <textarea style="width:100%;height:100vh;max-height:420px;overflow-y:auto;" readonly="readonly">
+                                    
+                                </textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="lib/chart/chart.min.js"></script>
+    <script src="js/datatables.min.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/device.js"></script>
+</body>
+</html>
