@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Web API</title>
+</head>
+<body>
+    <div>
+        <!--http://127.0.0.1:8000-->
+        Domain：<input type="text" id="domain" style="width:300px" value="https://pythonwebapi-7ay4.onrender.com">
+    </div>
+    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(480px, 1fr)); gap: 20px; padding: 20px;">
+        <!--Query single by JSON-->
+        <div style="border:solid black 3px;padding:5px 10px;display:flex;flex-direction:column;">
+            <h3>Method:Post<br/>單筆查詢(JSON)</h3>
+            <label>Body</label>
+            <textarea id="post-body" style="height:100px;">
+{
+    "idno": "123C"
+}
+            </textarea>
+            <label>Response</label>
+            <textarea id="post-res" style="height:80px;" readonly="readonly"></textarea>
+            <button onclick="sendRequest('qryDevice', 'POST', document.getElementById('post-body').value, document.getElementById('domain').value + '/qryDevice')" style="margin-top: 20px;height: 40px;cursor: pointer;">Post</button>
+        </div>
+        <!--Query single by RESTful-->
+        <div style="border:solid black 3px;padding:5px 10px;display:flex;flex-direction:column;">
+            <h3>Method:Get<br/>單筆查詢</h3>
+            <label>Url Query string</label>
+            <textarea id="get-url" style="height:80px;"></textarea>
+            <label>Response</label>
+            <textarea id="get-url-res" style="height:80px;" readonly="readonly"></textarea>
+            <button onclick="sendRequest('getDevice', 'GET', null, document.getElementById('get-url').value)" style="margin-top: 20px;height: 40px;cursor: pointer;">Get</button>
+        </div>
+        <!--Query ALL-->
+        <div style="border:solid black 3px;padding:5px 10px;display:flex;flex-direction:column;">
+            <h3>Method:Get<br/>查詢</h3>
+            <label>Response</label>
+            <textarea id="get-res" style="height:80px;" readonly="readonly"></textarea>
+            <button onclick="sendRequest('getDevices', 'GET', null, document.getElementById('domain').value + '/getDevices')" style="margin-top: 20px;height: 40px;cursor: pointer;">Get</button>
+        </div>
+        <!--Add-->
+        <div style="border:solid black 3px;padding:5px 10px;display:flex;flex-direction:column;">
+            <h3>Method:Post<br/>新增</h3>
+            <label>Body</label>
+            <textarea id="post-add" style="height:100px;">
+{
+    "idno": "123D",
+    "name": "電磁閥D",
+    "data": "資料4"
+}
+            </textarea>
+            <label>Response</label>
+            <textarea id="post-add-res" style="height:80px;" readonly="readonly"></textarea>
+            <button onclick="sendRequest('addDevice', 'POST', document.getElementById('post-add').value, document.getElementById('domain').value + '/addDevice')" style="margin-top: 20px;height: 40px;cursor: pointer;">Post</button>
+        </div>
+        <!--Update-->
+        <div style="border:solid black 3px;padding:5px 10px;display:flex;flex-direction:column;">
+            <h3>Method:Put<br/>修改</h3>
+            <label>Body</label>
+            <textarea id="put-body" style="height:100px;">
+{
+    "idno": "123B",
+    "name": "電磁閥B",
+    "data": "資料22222"
+}
+            </textarea>
+            <label>Response</label>
+            <textarea id="put-res" style="height:80px;" readonly="readonly"></textarea>
+            <button onclick="sendRequest('updDevice', 'PUT', document.getElementById('put-body').value, document.getElementById('domain').value + '/updDevice')" style="margin-top: 20px;height: 40px;cursor: pointer;">Put</button>
+        </div>
+        <!--Delete-->
+        <div style="border:solid black 3px;padding:5px 10px;display:flex;flex-direction:column;">
+            <h3>Method:Delete<br/>刪除</h3>
+            <label>Body</label>
+            <textarea id="delete-body" style="height:100px;">
+{
+    "idno": "123D",
+    "name": "電磁閥D",
+    "data": "資料4"
+}
+            </textarea>
+            <label>Response</label>
+            <textarea id="delete-res" style="height:80px;" readonly="readonly"></textarea>
+            <button onclick="sendRequest('delDevice', 'DELETE', document.getElementById('delete-body').value, document.getElementById('domain').value + '/delDevice')" style="margin-top: 20px;height: 40px;cursor: pointer;">Delete</button>
+        </div>
+    </div>
+    
+    <script>
+        window.onload = function() {
+            document.getElementById('get-url').value = document.getElementById('domain').value + '/getDevice/{idno}';
+        }
+
+        function sendRequest(_type, _method, _data, _url) {    
+            var d = null;
+            
+            if(_method !== 'GET') {
+                d = _data;
+            }
+            
+            fetch(_url, {
+                method: _method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: d
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('成功:', data);
+
+                if(_type == "qryDevice") {
+                    document.getElementById('post-res').value = JSON.stringify(data);
+
+                } else if(_type == "getDevice") {
+                    document.getElementById('get-url-res').value = JSON.stringify(data);
+
+                } else if(_type == "getDevices") {
+                    document.getElementById('get-res').value = JSON.stringify(data);
+
+                } else if(_type == "addDevice") {
+                    document.getElementById('post-add-res').value = JSON.stringify(data);
+
+                } else if(_type == "updDevice") {
+                    document.getElementById('put-res').value = JSON.stringify(data);
+
+                } else if(_type == "delDevice") {
+                    document.getElementById('delete-res').value = JSON.stringify(data);
+                }
+
+            })
+            .catch((error) => {
+                console.error('錯誤:', error);
+            });
+        }
+    </script>
+
+</body>
+</html>
